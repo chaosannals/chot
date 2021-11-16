@@ -1,0 +1,36 @@
+// import org.apache.tools.ant.taskdefs.condition.Os
+import org.gradle.internal.os.OperatingSystem;
+
+plugins {
+    id 'cpp-application'
+    id 'cpp-unit-test'
+}
+
+application {
+    targetMachines.add(machines.windows.x86_64)
+}
+
+tasks.withType(CppCompile).configureEach {
+    // if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+    //     macros.put("OS_WIN_ENTRY", null)
+    // }
+
+    if (OperatingSystem.current().isWindows()) {
+        macros.put("OS_WIN_ENTRY", null)
+    } else if (OperatingSystem.current().isLinux()) {
+        macros.put("OS_LIN_ENTRY", null)
+    } else if (OperatingSystem.current().isMacOsX()) {
+        macros.put("OS_MAC_ENTRY", null)
+    }
+
+    // 指定不同类型编译工具的配置。
+    compilerArgs.addAll toolChain.map { toolChain ->
+        if (toolChain in [ Gcc, Clang ]) {
+            // return ['-O2', '-fno-access-control']
+            return []
+        } else if (toolChain in VisualCpp) {
+            return ['/MT', '/SUBSYSTEM:WINDOWS']
+        }
+        return []
+    }
+}

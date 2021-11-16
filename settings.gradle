@@ -1,2 +1,3 @@
 rootProject.name = 'chot'
 include('core')
+include('chotc')
