@@ -1,3 +1,4 @@
 rootProject.name = 'chot'
 include('core')
 include('chotc')
+include('demo')

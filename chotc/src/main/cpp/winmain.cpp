@@ -1,7 +1,7 @@
 #ifdef OS_WIN_ENTRY
 
 #include <Windows.h>
-#include <iostream>
+#include <fstream>
 #include "app.h"
 
 int WINAPI WinMain(
@@ -11,7 +11,8 @@ int WINAPI WinMain(
   int       nShowCmd
 ) {
     chotc::chot_app app;
-    std::cout << app.apply(lpCmdLine) << std::endl;
+    std::ofstream f("tttt.log");
+    f << app.apply(lpCmdLine) << std::endl;
     return 0;
 }
 
